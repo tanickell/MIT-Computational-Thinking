@@ -71,7 +71,10 @@ $(html"<br>")
 """
 
 # ╔═╡ f51333a6-eded-11ea-34e6-bfbb3a69bcb0
-random_vect = missing # replace `missing` with your code!
+# random_vect = missing # replace `missing` with your code!
+
+# random_vect = rand(10)
+random_vect = rand(Float64, 10)
 
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
@@ -90,9 +93,17 @@ md"#### Exercise 1.2
 👉 Make a function `my_sum` using a `for` loop, which computes the total of a vector of numbers."
 
 # ╔═╡ bd907ee1-5253-4cae-b5a5-267dac24362a
+# function my_sum(xs)
+# 	# your code here!
+# 	return missing
+# end
+
 function my_sum(xs)
-	# your code here!
-	return missing
+	total = 0
+	for i in 1:size(xs, 1)
+		total += xs[i]
+	end
+	return total
 end
 
 # ╔═╡ 6640110a-d171-4b32-8d12-26979a36b718
@@ -103,9 +114,14 @@ md"#### Exercise 1.3
 👉 Use your `my_sum` function to write a function `mean`, which computes the mean/average of a vector of numbers."
 
 # ╔═╡ 0ffa8354-edee-11ea-2883-9d5bfea4a236
+# function mean(xs)
+# 	# your code here!
+# 	return missing
+# end
+
 function mean(xs)
 	# your code here!
-	return missing
+	return my_sum(xs) / size(xs, 1)
 end
 
 # ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
@@ -115,7 +131,9 @@ mean([1, 2, 3])
 md"👉 Define `m` to be the mean of `random_vect`."
 
 # ╔═╡ 2a391708-edee-11ea-124e-d14698171b68
-m = missing # replace `missing` with your code!
+# m = missing # replace `missing` with your code!
+
+m = mean(random_vect)
 
 # ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
 md"""#### Exercise 1.4
@@ -139,9 +157,15 @@ md"""
 """
 
 # ╔═╡ ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
+# function demean(xs)
+# 	# your code here!
+# 	return missing
+# end
+
 function demean(xs)
-	# your code here!
-	return missing
+	xs_copy = copy(xs)
+	xs_copy .-= mean(xs_copy)
+	return xs_copy
 end
 
 # ╔═╡ d6ddafdd-1a44-48c7-b49a-554073cdf331
@@ -180,9 +204,15 @@ md"""
 """
 
 # ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
+# function create_bar()
+# 	# your code here!
+# 	return missing
+# end
+
 function create_bar()
-	# your code here!
-	return missing
+	mybar = zeros(100)
+	mybar[41:60] .= 1
+	return mybar
 end
 
 # ╔═╡ 4a5e9d2c-dd90-4bb0-9e31-3f5c834406b4
