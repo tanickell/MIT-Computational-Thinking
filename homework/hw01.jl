@@ -278,9 +278,14 @@ md"""
 """
 
 # ╔═╡ a8b2270a-600c-4f83-939e-dc5ab35f4735
+# function get_red(pixel::AbstractRGB)
+# 	# your code here!
+# 	return missing
+# end
+
 function get_red(pixel::AbstractRGB)
 	# your code here!
-	return missing
+	return pixel.r
 end
 
 # ╔═╡ c320b39d-4cea-4fa1-b1ce-053c898a67a6
@@ -293,9 +298,14 @@ md"""
 """
 
 # ╔═╡ ebe1d05c-f6aa-437d-83cb-df0ba30f20bf
+# function get_reds(image::AbstractMatrix)
+# 	# your code here!
+# 	return missing
+# end
+
 function get_reds(image::AbstractMatrix)
-	# your code here!
-	return missing
+	
+	return get_red.(image)
 end
 
 # ╔═╡ c427554a-6f6a-43f1-b03b-f83239887cee
@@ -331,7 +341,7 @@ Use the ➕ button at the bottom left of this cell to add more cells.
 """
 
 # ╔═╡ 21ba6e75-55a2-4614-9b5d-ea6378bf1d98
-
+value_as_color.(get_reds(philip))
 
 # ╔═╡ f7825c18-ff28-4e23-bf26-cc64f2f5049a
 md"""
@@ -341,7 +351,24 @@ md"""
 """
 
 # ╔═╡ d994e178-78fd-46ab-a1bc-a31485423cad
+function get_green(pixel::AbstractRGB)
+	return pixel.g
+end
 
+# ╔═╡ 6607077b-c72d-44e7-b097-9a281789926e
+function get_greens(image::AbstractMatrix)
+	return get_green.(image)
+end
+
+# ╔═╡ 6f54c55c-626b-492f-87f8-6d442739d692
+function get_blue(pixel::AbstractRGB)
+	return pixel.b
+end
+
+# ╔═╡ 3d7cf89c-d3bc-4442-848a-86ee4c509097
+function get_blues(image::AbstractMatrix)
+	return get_blue.(image)
+end
 
 # ╔═╡ c54ccdea-ee05-11ea-0365-23aaf053b7d7
 md"""
@@ -350,9 +377,16 @@ md"""
 """
 
 # ╔═╡ f6898df6-ee07-11ea-2838-fde9bc739c11
+# function mean_color(image)
+# 	# your code here!
+# 	return missing
+# end
+
 function mean_color(image)
-	# your code here!
-	return missing
+	mean_red   = mean(mean.(get_reds(image)))
+	mean_green = mean(mean.(get_greens(image)))
+	mean_blue  = mean(mean.(get_blues(image)))
+	return RGB(mean_red, mean_green, mean_blue)
 end
 
 # ╔═╡ 5be9b144-ee0d-11ea-2a8d-8775de265a1d
@@ -2407,6 +2441,9 @@ version = "17.7.0+0"
 # ╠═21ba6e75-55a2-4614-9b5d-ea6378bf1d98
 # ╟─f7825c18-ff28-4e23-bf26-cc64f2f5049a
 # ╠═d994e178-78fd-46ab-a1bc-a31485423cad
+# ╠═6607077b-c72d-44e7-b097-9a281789926e
+# ╠═6f54c55c-626b-492f-87f8-6d442739d692
+# ╠═3d7cf89c-d3bc-4442-848a-86ee4c509097
 # ╟─c54ccdea-ee05-11ea-0365-23aaf053b7d7
 # ╠═f6898df6-ee07-11ea-2838-fde9bc739c11
 # ╠═5be9b144-ee0d-11ea-2a8d-8775de265a1d
