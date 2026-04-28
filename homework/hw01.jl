@@ -100,7 +100,7 @@ md"#### Exercise 1.2
 
 function my_sum(xs)
 	total = 0
-	for i in 1:size(xs, 1)
+	for i in 1:length(xs)
 		total += xs[i]
 	end
 	return total
@@ -121,7 +121,7 @@ md"#### Exercise 1.3
 
 function mean(xs)
 	# your code here!
-	return my_sum(xs) / size(xs, 1)
+	return my_sum(xs) / length(xs)
 end
 
 # ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
@@ -284,7 +284,6 @@ md"""
 # end
 
 function get_red(pixel::AbstractRGB)
-	# your code here!
 	return pixel.r
 end
 
@@ -304,7 +303,6 @@ md"""
 # end
 
 function get_reds(image::AbstractMatrix)
-	
 	return get_red.(image)
 end
 
@@ -383,9 +381,9 @@ md"""
 # end
 
 function mean_color(image)
-	mean_red   = mean(mean.(get_reds(image)))
-	mean_green = mean(mean.(get_greens(image)))
-	mean_blue  = mean(mean.(get_blues(image)))
+	mean_red   = mean(get_reds(image))
+	mean_green = mean(get_greens(image))
+	mean_blue  = mean(get_blues(image))
 	return RGB(mean_red, mean_green, mean_blue)
 end
 
@@ -397,10 +395,27 @@ md"""
 _At the end of this homework, you can see all of your filters applied to your webcam image!_
 """
 
+# ╔═╡ 2e6f352d-ba1c-4039-914d-474698cdcdc8
+begin
+	reds = get_reds(philip)
+println(size(reds))
+println(length(reds))
+end
+
+# ╔═╡ f138d88c-7a0f-4abf-a622-af736fa53187
+begin
+	println(size(get_reds(philip)))
+	println(typeof(get_reds(philip)))
+end
+
 # ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
+# function invert(color::AbstractRGB)
+# 	# your code here!
+# 	return missing
+# end
+
 function invert(color::AbstractRGB)
-	# your code here!
-	return missing
+	return RGB(1 - color.r, 1 - color.g, 1 - color.b)
 end
 
 # ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
@@ -422,7 +437,9 @@ invert(color_red)
 md"👉 Can you invert the picture of Philip?"
 
 # ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
-philip_inverted = missing # replace `missing` with your code!
+# philip_inverted = missing # replace `missing` with your code!
+
+philip_inverted = invert.(philip)
 
 # ╔═╡ 55b138b7-19fb-4da1-9eb1-1e8304528251
 md"""
@@ -2449,6 +2466,8 @@ version = "17.7.0+0"
 # ╠═5be9b144-ee0d-11ea-2a8d-8775de265a1d
 # ╟─4d0158d0-ee0d-11ea-17c3-c169d4284acb
 # ╟─5f6635b4-63ed-4a62-969c-bd4084a8202f
+# ╠═2e6f352d-ba1c-4039-914d-474698cdcdc8
+# ╠═f138d88c-7a0f-4abf-a622-af736fa53187
 # ╟─f6cc03a0-ee07-11ea-17d8-013991514d42
 # ╠═63e8d636-ee0b-11ea-173d-bd3327347d55
 # ╟─80a4cb23-49c9-4446-a3ec-b2203128dc27
