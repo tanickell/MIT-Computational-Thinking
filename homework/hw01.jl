@@ -99,6 +99,7 @@ md"#### Exercise 1.2
 # end
 
 function my_sum(xs)
+	
 	total = 0
 	for i in 1:length(xs)
 		total += xs[i]
@@ -120,7 +121,7 @@ md"#### Exercise 1.3
 # end
 
 function mean(xs)
-	# your code here!
+
 	return my_sum(xs) / length(xs)
 end
 
@@ -163,6 +164,7 @@ md"""
 # end
 
 function demean(xs)
+	
 	xs_copy = copy(xs)
 	xs_copy .-= mean(xs_copy)
 	return xs_copy
@@ -210,6 +212,7 @@ md"""
 # end
 
 function create_bar()
+	
 	mybar = zeros(100)
 	mybar[41:60] .= 1
 	return mybar
@@ -284,6 +287,7 @@ md"""
 # end
 
 function get_red(pixel::AbstractRGB)
+	
 	return pixel.r
 end
 
@@ -303,6 +307,7 @@ md"""
 # end
 
 function get_reds(image::AbstractMatrix)
+	
 	return get_red.(image)
 end
 
@@ -350,21 +355,25 @@ md"""
 
 # ╔═╡ d994e178-78fd-46ab-a1bc-a31485423cad
 function get_green(pixel::AbstractRGB)
+	
 	return pixel.g
 end
 
 # ╔═╡ 6607077b-c72d-44e7-b097-9a281789926e
 function get_greens(image::AbstractMatrix)
+	
 	return get_green.(image)
 end
 
 # ╔═╡ 6f54c55c-626b-492f-87f8-6d442739d692
 function get_blue(pixel::AbstractRGB)
+	
 	return pixel.b
 end
 
 # ╔═╡ 3d7cf89c-d3bc-4442-848a-86ee4c509097
 function get_blues(image::AbstractMatrix)
+	
 	return get_blue.(image)
 end
 
@@ -381,6 +390,7 @@ md"""
 # end
 
 function mean_color(image)
+	
 	mean_red   = mean(get_reds(image))
 	mean_green = mean(get_greens(image))
 	mean_blue  = mean(get_blues(image))
@@ -415,6 +425,7 @@ end
 # end
 
 function invert(color::AbstractRGB)
+	
 	return RGB(1 - color.r, 1 - color.g, 1 - color.b)
 end
 
@@ -453,9 +464,14 @@ md"""
 """
 
 # ╔═╡ fbd1638d-8d7a-4d12-aff9-9c160cc3fd74
+# function quantize(x::Number)
+# 	# your code here!
+# 	return missing
+# end
+
 function quantize(x::Number)
-	# your code here!
-	return missing
+	
+	return floor(x * 10) / 10
 end
 
 # ╔═╡ 7720740e-2d2b-47f7-98fd-500ed3eee479
@@ -508,9 +524,14 @@ The method you write should return a new `RGB` object, in which each component (
 """
 
 # ╔═╡ 04e6b486-ceb7-45fe-a6ca-733703f16357
+# function quantize(color::AbstractRGB)
+# 	# your code here!
+# 	return missing
+# end
+
 function quantize(color::AbstractRGB)
-	# your code here!
-	return missing
+	
+	return RGB(quantize(color.r), quantize(color.g), quantize(color.b))
 end
 
 # ╔═╡ f6bf64da-ee07-11ea-3efb-05af01b14f67
@@ -520,9 +541,14 @@ md"""
 """
 
 # ╔═╡ 13e9ec8d-f615-4833-b1cf-0153010ccb65
+# function quantize(image::AbstractMatrix)
+# 	# your code here!
+# 	return missing
+# end
+
 function quantize(image::AbstractMatrix)
-	# your code here!
-	return missing
+	
+	return quantize.(image)
 end
 
 # ╔═╡ f6a655f8-ee07-11ea-13b6-43ca404ddfc7
@@ -541,9 +567,14 @@ md"""
 """
 
 # ╔═╡ f38b198d-39cf-456f-a841-1ba08f206010
+# function noisify(x::Number, s)
+# 	# your code here!
+# 	return missing
+# end
+
 function noisify(x::Number, s)
-	# your code here!
-	return missing
+
+	return clamp(x + (rand(Float64) - 0.5) * s * 2, 0, 1)
 end
 
 # ╔═╡ f6fc1312-ee07-11ea-39a0-299b67aee3d8
@@ -554,9 +585,14 @@ Use your previous method for `noisify`. _(Remember that Julia chooses which meth
 """
 
 # ╔═╡ db4bad9f-df1c-4640-bb34-dd2fe9bdce18
+# function noisify(color::AbstractRGB, s)
+# 	# your code here!
+# 	return missing
+# end
+
 function noisify(color::AbstractRGB, s)
-	# your code here!
-	return missing
+	
+	return RGB(noisify(color.r, s), noisify(color.g, s), noisify(color.b, s))
 end
 
 # ╔═╡ 0000b7f8-4c43-4dd8-8665-0dfe59e74c0a
@@ -588,9 +624,14 @@ md"""
 """
 
 # ╔═╡ 21a5885d-00ab-428b-96c3-c28c98c4ca6d
+# function noisify(image::AbstractMatrix, s)
+# 	# your code here!
+# 	return missing
+# end
+
 function noisify(image::AbstractMatrix, s)
-	# your code here!
-	return missing
+	
+	return [noisify(pixel, s) for pixel in image]
 end
 
 # ╔═╡ 1ea53f41-b791-40e2-a0f8-04e13d856829
@@ -615,7 +656,9 @@ Move the slider below to set the amount of noise applied to the image of Philip.
 """
 
 # ╔═╡ e70a84d4-ee0c-11ea-0640-bf78653ba102
-@bind philip_noise Slider(0:0.01:1, show_value=true)
+# @bind philip_noise Slider(0:0.01:1, show_value=true)
+
+@bind philip_noise Slider(0:0.01:5, show_value=true)
 
 # ╔═╡ ac15e0d0-ee0c-11ea-1eaf-d7f88b5df1d7
 noisify(philip_head, philip_noise)
@@ -640,8 +683,16 @@ You may need noise intensities larger than 1. Why?
 """
 
 # ╔═╡ bdc2df7c-ee0c-11ea-2e9f-7d2c085617c1
+# answer_about_noise_intensity = md"""
+# The image is unrecognisable with intensity ...
+# """
+
 answer_about_noise_intensity = md"""
-The image is unrecognisable with intensity ...
+
+Tim's response:
+	
+	The image is unrecognisable with intensity 3 or so. With an intensity of 1, s equals 1, which means each pixel is altered by a random value between -1 and 1. At this value, the degree of alteration (i.e., the strength) is too small to alter each pixel enough to make the image pattern unrecognizable.
+	
 """
 
 # ╔═╡ e87e0d14-43a5-490d-84d9-b14ece472061
@@ -650,11 +701,16 @@ md"""
 """
 
 # ╔═╡ ee5f21fb-1076-42b6-8926-8bbb6ed0ad67
+# function custom_filter(pixel::AbstractRGB)
+	
+# 	# your code here!
+	
+# 	return pixel
+# end
+
 function custom_filter(pixel::AbstractRGB)
-	
-	# your code here!
-	
-	return pixel
+		
+	return RGB(clamp(pixel.r - 0.3, 0, 1), clamp(pixel.g - 0.3, 0, 1), clamp(pixel.b - 0.3, 0, 1))
 end
 
 # ╔═╡ 9e5a08dd-332a-486b-94ab-15c49e72e522
