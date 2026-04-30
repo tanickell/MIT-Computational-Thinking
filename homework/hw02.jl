@@ -188,6 +188,9 @@ md"""
 Return a vector of the same size as `v`.
 """
 
+# ╔═╡ fa4ad02d-a71a-4560-90b4-40f57ee7441d
+colored_line(example_vector)
+
 # ╔═╡ 809f5330-ee09-11ea-0e5b-415044b6ac1f
 md"""
 #### Exercise 1.4
@@ -227,9 +230,14 @@ md"""
 """
 
 # ╔═╡ 8a7d3cfd-6f19-43f0-ae16-d5a236f148e7
+# function box_blur_kernel(l)
+	
+# 	return missing
+# end
+
 function box_blur_kernel(l)
 	
-	return missing
+	return ones(Int64, 2 * l + 1) ./ (2 * l + 1)
 end
 
 # ╔═╡ a34d1ad8-3776-4bc4-93e5-72cfffc54f15
@@ -242,6 +250,9 @@ box_blur_kernel_test = box_blur_kernel(box_kernel_l)
 md"""
 Let's apply your kernel to our test vector `v` (first cell), and compare the result to our previous box blur function (second cell). The two should be identical.
 """
+
+# ╔═╡ 72a2b685-4485-48cc-994a-588efbcaff1a
+colored_line(v)
 
 # ╔═╡ 03f91a22-1c3e-4c42-9d78-1ee36851a120
 md"""
@@ -357,7 +368,7 @@ end
 # end
 
 function box_blur(v::AbstractArray, l)
-	v_blur = copy(v)
+	v_blur = Float64.(copy(v))
 	for i in 1:length(v)
 		v_blur[i] = mean([extend(v, j) for j in i-l:i+l])
 	end
@@ -392,6 +403,9 @@ let
 	colored_line(result)
 end
 
+# ╔═╡ a9dd2d7c-60f0-4950-bd79-3af9ffabb7f6
+box_blur([1, 10, 100], 2)
+
 # ╔═╡ 28e20950-ee0c-11ea-0e0a-b5f2e570b56e
 # function convolve(v::AbstractVector, k)
 	
@@ -403,10 +417,27 @@ function convolve(v::AbstractVector, k)
 	v_new = zeros(length(v))
 	l = length(k) ÷ 2 # find the value of l
 	for i in 1:length(v)
-		v_new[i] = sum([extend(v, j) for j in i-l:i+l] .* k)
+		v_new[i] = sum([extend(v, j) for j in i-l:i+l] .* reverse(k))
+		#v_new[i] = mean([extend(v, j) for j in i-l:i+l])
+		#v_new[i] = sum([extend(v, i - m) for m in -l:l] .* k)
 	end
 	return v_new
 end
+
+# function convolve(v::AbstractVector, k)
+#     v_new = zeros(length(v))
+#     l = length(k) ÷ 2
+
+#     for i in eachindex(v)
+#         s = 0.0
+#         for m in -l:l
+#             s += extend(v, i - m) * k[m + l + 1]
+#         end
+#         v_new[i] = s
+#     end
+
+#     return v_new
+# end
 
 # ╔═╡ 9afc4dca-ee16-11ea-354f-1d827aaa61d2
 md"_Let's test it!_"
@@ -480,6 +511,9 @@ let
 	result = convolve(v, box_blur_kernel_test)
 	colored_line(result)
 end
+
+# ╔═╡ ca7ae368-6ec3-49c7-b200-9313f7b2108b
+convolve([1, 10, 100], box_blur_kernel(2))
 
 # ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
 test_gauss_1D_a = let
@@ -2183,6 +2217,7 @@ version = "17.6.1+0"
 # ╠═5fdc5d0d-a52c-476e-b3b5-3b6364b706e4
 # ╟─e84c9cc2-e6e1-46f1-bf4e-9605da5e6f4a
 # ╠═807e5662-ee09-11ea-3005-21fdcc36b023
+# ╠═fa4ad02d-a71a-4560-90b4-40f57ee7441d
 # ╠═4f08ebe8-b781-4a32-a218-5ecd8338561d
 # ╟─808deca8-ee09-11ea-0ee3-1586fa1ce282
 # ╟─809f5330-ee09-11ea-0e5b-415044b6ac1f
@@ -2204,7 +2239,10 @@ version = "17.6.1+0"
 # ╟─5f13b1a5-8c7d-47c9-b96a-a09faf38fe5e
 # ╠═338b1c3f-f071-4f80-86c0-a82c17349828
 # ╠═bbe1a562-8d97-4112-a88a-c45c260f574d
-# ╟─d93fa3f6-c361-4dfd-a2ea-f38e682bcd6a
+# ╠═72a2b685-4485-48cc-994a-588efbcaff1a
+# ╠═d93fa3f6-c361-4dfd-a2ea-f38e682bcd6a
+# ╠═a9dd2d7c-60f0-4950-bd79-3af9ffabb7f6
+# ╠═ca7ae368-6ec3-49c7-b200-9313f7b2108b
 # ╟─03f91a22-1c3e-4c42-9d78-1ee36851a120
 # ╟─48530f0d-49b4-4aec-8109-d69f1ef7f0ee
 # ╠═beb62fda-38a6-4528-a176-cfb726f4b5bd
