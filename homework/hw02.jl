@@ -280,15 +280,6 @@ We need to **sample** (i.e. evaluate) this at each pixel in an interval of lengt
 and then **normalize** so that the sum of the resulting kernel is 1.
 """
 
-# ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
-function gaussian_kernel_1D(n; σ = 1)
-	
-	return missing
-end
-
-# ╔═╡ a6149507-d5ba-45c1-896a-3487070d36ec
-colored_line(gaussian_kernel_1D(4; σ=1))
-
 # ╔═╡ f8bd22b8-ee14-11ea-04aa-ab16fd01826e
 md"""
 You can edit the cell above to test your kernel function!
@@ -297,7 +288,11 @@ Let's try applying it in a convolution.
 """
 
 # ╔═╡ 2a9dd06a-ee13-11ea-3f84-67bb309c77a8
-@bind gaussian_kernel_size_1D Slider(0:6)
+# @bind gaussian_kernel_size_1D Slider(0:6)
+@bind gaussian_kernel_size_1D Slider(0:10)
+
+# ╔═╡ af2b5527-3d44-4edb-a489-a338dfe4140a
+@bind gaussian_kernel_sigma_1D Slider(0:3)
 
 # ╔═╡ ce24e486-df27-4780-bc57-d3bf7bee83bb
 function create_bar()
@@ -515,31 +510,6 @@ end
 # ╔═╡ ca7ae368-6ec3-49c7-b200-9313f7b2108b
 convolve([1, 10, 100], box_blur_kernel(2))
 
-# ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
-test_gauss_1D_a = let
-	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
-	
-	if k !== missing
-		convolve(v, k)
-	end
-end
-
-# ╔═╡ b424e2aa-ee14-11ea-33fa-35491e0b9c9d
-colored_line(test_gauss_1D_a)
-
-# ╔═╡ 24c21c7c-ee14-11ea-1512-677980db1288
-test_gauss_1D_b = let
-	v = create_bar()
-	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
-	
-	if k !== missing
-		convolve(v, k)
-	end
-end
-
-# ╔═╡ bc1c20a4-ee14-11ea-3525-63c9fa78f089
-colored_line(test_gauss_1D_b)
-
 # ╔═╡ 5a5135c6-ee1e-11ea-05dc-eb0c683c2ce5
 md"_Let's test it out! 🎃_"
 
@@ -583,6 +553,53 @@ How can you express this mathematically using the 1D Gaussian function that we d
 
 # ╔═╡ f4d9fd6f-0f1b-4dec-ae68-e61550cee790
 gauss(x, y; σ=1) = 2π*σ^2 * gauss(x; σ=σ) * gauss(y; σ=σ)
+
+# ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
+# function gaussian_kernel_1D(n; σ = 1)
+	
+# 	return missing
+# end
+
+function gaussian_kernel_1D(n; σ = 1)
+
+	#myvector = zeros(Float64, 2n + 1)
+	myvector = -n:n
+	#gaussed = gauss.(myvector, σ)
+	gaussed = gauss.(myvector; σ=σ)
+	result = gaussed ./ sum(gaussed)
+	return result
+end
+
+# ╔═╡ a6149507-d5ba-45c1-896a-3487070d36ec
+colored_line(gaussian_kernel_1D(4; σ=1))
+
+# ╔═╡ b8868806-6f20-4e02-9130-6724a868e397
+colored_line(gaussian_kernel_1D(gaussian_kernel_size_1D; σ=gaussian_kernel_sigma_1D))
+
+# ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
+test_gauss_1D_a = let
+	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
+	
+	if k !== missing
+		convolve(v, k)
+	end
+end
+
+# ╔═╡ b424e2aa-ee14-11ea-33fa-35491e0b9c9d
+colored_line(test_gauss_1D_a)
+
+# ╔═╡ 24c21c7c-ee14-11ea-1512-677980db1288
+test_gauss_1D_b = let
+	v = create_bar()
+	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
+	
+	if k !== missing
+		convolve(v, k)
+	end
+end
+
+# ╔═╡ bc1c20a4-ee14-11ea-3525-63c9fa78f089
+colored_line(test_gauss_1D_b)
 
 # ╔═╡ 7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
 md"""
@@ -2248,10 +2265,12 @@ version = "17.6.1+0"
 # ╠═beb62fda-38a6-4528-a176-cfb726f4b5bd
 # ╟─f0d55cec-2e81-4cbb-b166-2cf4f2a0f43f
 # ╠═1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
-# ╟─f0c3e99d-9eb9-459e-917a-c2338af6683c
+# ╠═f0c3e99d-9eb9-459e-917a-c2338af6683c
 # ╠═a6149507-d5ba-45c1-896a-3487070d36ec
 # ╟─f8bd22b8-ee14-11ea-04aa-ab16fd01826e
+# ╠═b8868806-6f20-4e02-9130-6724a868e397
 # ╠═2a9dd06a-ee13-11ea-3f84-67bb309c77a8
+# ╠═af2b5527-3d44-4edb-a489-a338dfe4140a
 # ╠═b424e2aa-ee14-11ea-33fa-35491e0b9c9d
 # ╠═38eb92f6-ee13-11ea-14d7-a503ac04302e
 # ╠═bc1c20a4-ee14-11ea-3525-63c9fa78f089
